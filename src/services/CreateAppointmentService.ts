@@ -32,8 +32,6 @@ class CreateAppointmentService {
       date: appointmentDate,
     })
 
-    console.log(appointment)
-
     await appointmentsRepository.save(appointment)
 
     return appointment

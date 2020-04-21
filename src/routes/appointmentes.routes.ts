@@ -37,4 +37,5 @@ appointmentsRouter.post('/', async (request, response) => {
   }
 })
 
+
 export default appointmentsRouter
