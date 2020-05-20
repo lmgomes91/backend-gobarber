@@ -5,11 +5,12 @@ import 'express-async-errors';
 import cors from 'cors';
 
 import routes from './routes/index';
-import uploadConfig from './config/upload';
+import uploadConfig from '../../../config/upload';
 
-import AppError from './errors/AppError';
+import AppError from '../../errors/AppError';
 
-import './database';
+import '../typeorm';
+import '../../container';
 
 const app = express();
 
@@ -20,12 +21,7 @@ app.use('/files', express.static(uploadConfig.directory));
 app.use(routes);
 
 app.use(
-  (
-    error: Error,
-    _request: Request,
-    response: Response,
-    _next: NextFunction,
-  ) => {
+  (error: Error, request: Request, response: Response, _next: NextFunction) => {
     if (error instanceof AppError) {
       return response.status(error.statusCode).json({
         status: 'error',
@@ -43,5 +39,6 @@ app.use(
 );
 
 app.listen(3333, () => {
+  // eslint-disable-next-line no-console
   console.log('Servidor iniciado na porta 3333');
 });
