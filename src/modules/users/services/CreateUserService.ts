@@ -13,16 +13,14 @@ interface IRequest {
 @injectable()
 class CreateUserService {
   constructor(
-    @inject('UserRepository')
+    @inject('UsersRepository')
     private usersRepository: IUsersRepository,
-
     @inject('HashProvider')
     private hashProvider: IhashProvider,
   ) {}
 
   public async execute({ name, email, password }: IRequest): Promise<User> {
     const checkUserExist = await this.usersRepository.findByEmail(email);
-
     if (checkUserExist) {
       throw new AppError('Email address already used');
     }
