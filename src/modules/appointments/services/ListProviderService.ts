@@ -1,4 +1,5 @@
 import { injectable, inject } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 import ICacheProvider from '../../../shared/container/providers/CacheProvider/models/ICacheProvider';
 
 import IUsersRepository from '../../users/repositories/IUsersRepository';
@@ -24,6 +25,8 @@ class ListProviderService {
       `providers-list:${user_id}`,
     );
 
+    // let users;
+
     if (!users) {
       users = await this.usersRepository.findAllproviders({
         except_user_id: user_id,
@@ -31,7 +34,10 @@ class ListProviderService {
 
       console.log('Salvo no redis');
 
-      await this.cacheProvider.save(`providers-list:${user_id}`, users);
+      await this.cacheProvider.save(
+        `providers-list:${user_id}`,
+        classToClass(users),
+      );
     }
 
     return users;
